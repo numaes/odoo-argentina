@@ -13,7 +13,7 @@
             <field name="report_rml">l10n_ar_aeroo_sale/sale_order.odt</field>
             <field name="tml_source">file</field>
             <field name="print_logo">company_logo</field> <!-- Or 'company_logo' or ''  -->
-            <field name="background_image" type="base64" file="l10n_ar_aeroo_sale/sale_order.png"/>
+            <!-- <field name="background_image" type="base64" file="l10n_ar_aeroo_sale/sale_order.png"/> -->
             <field name="use_background_image" eval="True"/>
         </record>
 
@@ -21,10 +21,10 @@
 
     <data noupdate="1">
         <!-- Iniciamos los key values sin update-->
-        <function
+<!--         <function
             eval="([ref('action_aeroo_report_ar_sale_order')])"
             id="update_lines_ar_receipt"
             model="ir.actions.report.xml"
-            name="update_lines_that_apply"/>    
+            name="update_lines_that_apply"/>    --> 
     </data>
 </openerp>
