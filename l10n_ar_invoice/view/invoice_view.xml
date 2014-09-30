@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+##############################################################################
+#
+# Copyright (C) 2012 OpenERP - Team de Localización Argentina.
+# https://launchpad.net/~openerp-l10n-ar-localization
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program. If not, see <http://www.gnu.org/licenses/>.
+#
+##############################################################################
+-->
+<openerp>
+    <data>
+
+        <record id="view_invoice_form" model="ir.ui.view">
+            <field name="name">l10n_ar.invoice.form</field>
+            <field name="model">account.invoice</field>
+            <field name="inherit_id" ref="account.invoice_form"/>
+            <field name="arch" type="xml">
+                <!-- We add context con on_change functions so we can map journals according to the menu where we are -->
+                <field name="partner_id" position="attributes">
+                    <attribute name="on_change">onchange_partner_id(type,partner_id,date_invoice,payment_term, partner_bank_id,company_id,context)</attribute>
+                </field>
+                <field name="company_id" position="attributes">
+                    <attribute name="on_change">onchange_company_id(company_id,partner_id,type,invoice_line,currency_id,context)</attribute>
+                </field>
+
+                <!-- We add this functional field so it can be used on journal domain -->
+                <sheet>
+                    <field name="available_journal_ids" invisible="1"/>
+                </sheet>
+
+                <field name="journal_id" position="replace">
+                    <field name="journal_id" groups="account.group_account_user" on_change="onchange_journal_id(journal_id, context)" domain="[('id','in',available_journal_ids[0][2])]"/>
+                </field>       
+            </field>
+        </record>
+
+        <record id="view_supplier_invoice_form" model="ir.ui.view">
+            <field name="name">l10n_ar.invoice.form</field>
+            <field name="model">account.invoice</field>
+            <field name="inherit_id" ref="account.invoice_supplier_form"/>
+            <field name="arch" type="xml">
+                <!-- We add context con on_change functions so we can map journals according to the menu where we are -->
+                <field name="partner_id" position="attributes">
+                    <attribute name="on_change">onchange_partner_id(type,partner_id,date_invoice,payment_term, partner_bank_id,company_id,context)</attribute>
+                </field>
+                <field name="company_id" position="attributes">
+                    <attribute name="on_change">onchange_company_id(company_id,partner_id,type,invoice_line,currency_id,context)</attribute>
+                </field>
+
+                <!-- We add this functional field so it can be used on journal domain -->
+                <sheet>
+                    <field name="available_journal_ids" invisible="1"/>
+                </sheet>
+
+                <field name="journal_id" position="replace">
+                    <field name="journal_id" groups="account.group_account_user" on_change="onchange_journal_id(journal_id, context)" domain="[('id','in',available_journal_ids[0][2])]"/>
+                </field>     
+            </field>
+        </record>
+
+    </data>
+</openerp>
+<!-- vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4
+     -->
