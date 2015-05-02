@@ -41,6 +41,7 @@ class Parser(rml_parse):
                 cr, uid, context['active_id'], context=context)
             if hasattr(active_object, 'company_id') and active_object.company_id:
                 company = active_object.company_id
+            print 'active_model_obj', active_model_obj
 
         if not company:
             company = self.pool['res.users'].browse(cr, uid, uid, context).company_id
@@ -48,7 +49,7 @@ class Parser(rml_parse):
         self.localcontext.update({'company': company})
 
         print 'contextcontextcontext', context
-        print 'active_model_obj', active_model_obj
+        
         # print 'active_model_obj', active_model_obj.name
         
         # We add logo
