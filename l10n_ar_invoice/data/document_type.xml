@@ -149,13 +149,13 @@
                 <field name='code'>CUIT</field>
                 <field name='name'>CUIT</field>
                 <field name='afip_code'>80</field>
-		<field name='active' eval="True"/>
+		<field name='active' eval="False"/>
         </record> 
         <record model='afip.document_type' id='dt_CUIL'>
                 <field name='code'>CUIL</field>
                 <field name='name'>CUIL</field>
                 <field name='afip_code'>86</field>
-		<field name='active' eval="True"/>
+		<field name='active' eval="False"/>
         </record> 
         <record model='afip.document_type' id='dt_CDI'>
                 <field name='code'>CDI</field>
@@ -209,7 +209,7 @@
                 <field name='code'>DNI</field>
                 <field name='name'>DNI</field>
                 <field name='afip_code'>96</field>
-		<field name='active' eval="True"/>
+		<field name='active' eval="False"/>
         </record> 
         <record model='afip.document_type' id='dt_Sigd'>
                 <field name='code'>Sigd</field>
