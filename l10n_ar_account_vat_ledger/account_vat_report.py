@@ -1,15 +1,7 @@
 # -*- coding: utf-8 -*-
 import time
-# from datetime import date, datetime
 from openerp import models, fields, api, _
-from openerp.osv import fields as old_fields
 from openerp.exceptions import Warning
-# from dateutil.relativedelta import relativedelta
-# from openerp.tools import DEFAULT_SERVER_DATE_FORMAT
-
-
-# def get_date_length(date_format=DEFAULT_SERVER_DATE_FORMAT):
-#     return len((datetime.now()).strftime(date_format))
 
 
 class account_vat_ledger(models.Model):
@@ -18,10 +10,6 @@ class account_vat_ledger(models.Model):
     _description = "Account VAT Ledger"
     _inherit = ['mail.thread']
     _order = 'period_id desc'
-
-    _columns = {
-    'first_page': old_fields.float('sasdasdas')
-    }
 
     company_id = fields.Many2one(
         'res.company', string='Company', required=True,
@@ -42,9 +30,9 @@ class account_vat_ledger(models.Model):
         'account.journal', 'account_vat_ledger_journal_rel',
         'vat_ledger_id', 'journal_id', string='Journals', required=True,
         readonly=True, states={'draft': [('readonly', False)]},)
-    # first_page = fields.Integer(
-    #     "First Page", required=True,
-    #     readonly=True, states={'draft': [('readonly', False)]},)
+    first_page = fields.Integer(
+        "First Page", required=True,
+        readonly=True, states={'draft': [('readonly', False)]},)
     last_page = fields.Integer(
         "Last Page",
         readonly=True, states={'draft': [('readonly', False)]},)
@@ -89,7 +77,9 @@ class account_vat_ledger(models.Model):
         compute="_get_data")
 
     @api.one
-    @api.depends('journal_ids', 'period_id')
+    # Sacamos el depends por un error con el cache en esqume multi cia al
+    # cambiar periodo de una cia hija con usuario distinto a admin
+    # @api.depends('journal_ids', 'period_id')
     def _get_data(self):
         self.responsability_ids = self.env['afip.responsability'].search([])
 
@@ -107,7 +97,7 @@ class account_vat_ledger(models.Model):
         self.document_class_ids = document_class_ids
 
         # Get invoices
-        self.invoice_ids = self.env['account.invoice']
+        # self.invoice_ids = self.env['account.invoice']
         invoices = self.env['account.invoice'].search(invoices_domain)
         self.invoice_ids = invoices
 
@@ -137,9 +127,10 @@ class account_vat_ledger(models.Model):
         other_taxes_domain = [
             ('invoice_id', 'in', invoices.ids),
             ('tax_code_id', '!=', False),
-            ('tax_code_id.parent_id.name', '!=', 'IVA'),
+            '|', ('tax_code_id.parent_id.name', '!=', 'IVA'),
+            ('tax_code_id.parent_id', '=', False),
             ]
-        self.tax_code_ids = self.env['account.tax.code']
+        self.other_tax_code_ids = self.env['account.tax.code']
         other_group_taxes = self.env['account.invoice.tax'].read_group(
             other_taxes_domain, ['id', 'tax_code_id'], ['tax_code_id'])
         other_tax_code_ids = [
@@ -181,9 +172,11 @@ class account_vat_ledger(models.Model):
             domain = [('type', 'in', ['purchase', 'purchase_refund'])]
         domain += [
             ('use_documents', '=', True),
-            '|',
+            # No tomamos los diarios de las cias hijas
+            # '|',
             ('company_id', '=', self.company_id.id),
-            ('company_id', 'child_of', self.company_id.id)]
+            # ('company_id', 'child_of', self.company_id.id)
+            ]
         journals = self.env['account.journal'].search(domain)
         self.journal_ids = journals
 
@@ -195,8 +188,11 @@ class account_vat_ledger(models.Model):
              ('type', '=', self.type)],
             order='period_id desc', limit=1)
         if vat_ledgers:
-            next_period = self.env['account.period'].with_context(
-                company_id=self.company_id.id).next(vat_ledgers.period_id, 1)
+            next_period = self.env['account.period'].search(
+                [('company_id', '=', self.company_id.id),
+                 ('fiscalyear_id', '=', self.fiscalyear_id.id),
+                 ('date_start', '>', vat_ledgers.period_id.date_start),
+                 ], limit=1)
         else:
             next_period = self.env['account.period'].search(
                 [('company_id', '=', self.company_id.id),
@@ -218,6 +214,5 @@ class account_vat_ledger(models.Model):
 
     @api.multi
     def action_print(self):
-        assert len(
-            self) == 1, 'This option should only be used for a single id at a time.'
+        self.ensure_one
         return self.env['report'].get_action(self, 'report_account_vat_ledger')

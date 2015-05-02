@@ -12,7 +12,7 @@ class afip_document_class(models.Model):
         string='Tax',
         compute='_get_amounts',)
     amount_total = fields.Float(
-        string='total',
+        string='Total',
         compute='_get_amounts',)
 
     @api.one
@@ -69,6 +69,7 @@ class account_tax_code(models.Model):
         """
         amount_untaxed = False
         amount_tax = False
+        amount_total = False
         vat_ledger_id = self._context.get('vat_ledger_id', False)
         if vat_ledger_id:
             vat_ledger = self.env['account.vat.ledger'].browse(vat_ledger_id)
