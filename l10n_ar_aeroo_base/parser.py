@@ -44,6 +44,7 @@ class Parser(rml_parse):
             if hasattr(
                     active_object, 'company_id') and active_object.company_id:
                 company = active_object.company_id
+            print 'active_model_obj', active_model_obj
 
         if not company:
             company = self.pool[
