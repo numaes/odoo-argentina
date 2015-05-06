@@ -54,7 +54,7 @@ class Parser(report_sxw.rml_parse):
         fields_type = dict(map(lambda name: (name, result['fields'][name]['type']), result['fields']))
         fields_order = self._parse_string(result['arch'])
         rows = model.read(cr, uid, ids, context=context)
-        print 'rows', rows
+        #print 'rows', rows
 
         self.localcontext.update({
             # 'screen_fields': fields_order,
