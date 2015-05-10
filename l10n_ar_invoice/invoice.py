@@ -43,6 +43,8 @@ class account_invoice_line(models.Model):
         # Not VAT taxes
         not_vat_taxes = self.invoice_line_tax_id.filtered(
             lambda r: r.tax_code_id.parent_id.name != 'IVA').compute_all(
+            #lambda r: 'IVA' not in r.tax_code_id.parent_id.name).compute_all(
+            #lambda r: 'IVA' not in r.tax.tax_code_id.name).compute_all(
             price, 1,
             product=self.product_id,
             partner=self.invoice_id.partner_id)
@@ -52,6 +54,8 @@ class account_invoice_line(models.Model):
         # VAT taxes
         vat_taxes = self.invoice_line_tax_id.filtered(
             lambda r: r.tax_code_id.parent_id.name == 'IVA').compute_all(
+            #lambda r: 'IVA' in r.tax_code_id.name).compute_all(
+            #lambda r: 'IVA' in r.tax_code_id.parent_id.name).compute_all(
             price, 1,
             product=self.product_id,
             partner=self.invoice_id.partner_id)
