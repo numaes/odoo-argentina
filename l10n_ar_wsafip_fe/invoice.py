@@ -232,9 +232,9 @@ class invoice(models.Model):
                     print 'El parent id SI ES IVA'
                     tax_daniel_Id = tax.tax_code_id.parent_afip_code
                     if tax.tax_code_id.parent_afip_code == 0:
-                        if (tax.tax_amount / tax.base_amount) == 0.21:
+                        if round(tax.tax_amount / tax.base_amount,2) == 0.21:
                             tax_daniel_Id = 5
-                        elif (tax.tax_amount / tax.base_amount) == 0.105:
+                        elif round(tax.tax_amount / tax.base_amount,3) == 0.105:
                             tax_daniel_Id = 4
                         else:
                             tax_daniel_Id = 3
