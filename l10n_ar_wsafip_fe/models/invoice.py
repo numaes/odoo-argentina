@@ -215,6 +215,14 @@ class invoice(models.Model):
                 'Opcionales': {},
             }.iteritems() if v is not None)
             Inv2id[invoice_number] = inv.id
+            # agregada daniel
+            print "==================aca estamos ========================="
+            print inv.id
+            print Inv2id[invoice_number]
+            print invoice_number
+            #print v
+            print "==================aca estamos ========================="
+            # agregada daniel
         for c_id, req in Requests.iteritems():
             res = conn_obj.browse(c_id).server_id.wsfe_get_cae(c_id, req)
             for k, v in res.iteritems():
