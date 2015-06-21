@@ -208,21 +208,14 @@ class invoice(models.Model):
                         'Importe': x.tax_amount} for x in self.not_vat_tax_ids]},
                 'Iva': {
                     'AlicIva': [{
-                        'Id': x.tax_code_id.afip_code,
+                        #'Id': x.tax_code_id.afip_code,
+                        'Id': 5,
                         'BaseImp': x.base_amount,
                         'Importe': x.tax_amount} for x in self.vat_tax_ids]},
                 # TODO implementar los optionals
                 'Opcionales': {},
             }.iteritems() if v is not None)
             Inv2id[invoice_number] = inv.id
-            # agregada daniel
-            print "==================aca estamos ========================="
-            print inv.id
-            print Inv2id[invoice_number]
-            print invoice_number
-            #print v
-            print "==================aca estamos ========================="
-            # agregada daniel
         for c_id, req in Requests.iteritems():
             res = conn_obj.browse(c_id).server_id.wsfe_get_cae(c_id, req)
             for k, v in res.iteritems():
