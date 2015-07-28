@@ -22,3 +22,8 @@ class res_partner(models.Model):
             document_number = re.sub('[^1234567890]', '', str(self.document_number))
             self.vat = 'AR%s' % document_number
             self.document_number = document_number
+        ## agregado por Daniel Blanco
+        elif self.document_number and ('afip.document_type', self.document_type_id.id) == mod_obj.get_object_reference('l10n_ar_invoice', 'dt_RUT'):
+            document_number = re.sub('[^1234567890Kk]', '', str(self.document_number)).upper()
+            self.vat = 'CL%s' % document_number
+            self.document_number = document_number
