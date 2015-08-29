@@ -229,6 +229,12 @@
                 <field name='afip_code'>88</field>
 		<field name='active' eval="True"/>
         </record> 
+        <record model='afip.document_type' id='dt_RUT'>
+                <field name='code'>RUT</field>
+                <field name='name'>RUT</field>
+                <field name='afip_code'>81</field>
+                <field name='active' eval="True"/>
+        </record>
     </data>
 </openerp>
         
