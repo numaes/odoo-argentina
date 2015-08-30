@@ -5,7 +5,7 @@ dc_a_nc,3,NCA,NOTAS DE CREDITO,dl_a,NOTA DE CREDITO,credit_note,NC-A
 dc_a_r,4,ReA,RECIBOS,dl_a,,,REC 
 dc_a_nvc,5,VCA,NOTAS DE VENTA AL CONTADO,dl_a,,,
 dc_b_f,6,FVB,BOLETA,dl_b,FACTURA,invoice,BOLETA   
-dc_b_nd,7,NDB,NOTAS DE DEBITO BOLETA,dl_b,NOTA DE DEBITO,debit_note,ND-B 
+dc_b_nd,7,NDB,NOTA DE VENTA TARJETA,dl_b,NOTA DE VENTA TARJETA,debit_note,NV-T  
 dc_b_nc,8,NCB,NOTAS DE CREDITO BOLETA,dl_b,NOTA DE CREDITO,credit_note,NC-B 
 dc_b_r,9,ReB,RECIBOS BOLETA,dl_b,,,REC 
 dc_b_nvc,10,VCB,NOTAS DE VENTA AL CONTADO BOLETA,dl_b,,,
