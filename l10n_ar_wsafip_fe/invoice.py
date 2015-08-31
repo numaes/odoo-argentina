@@ -185,7 +185,7 @@ class invoice(models.Model):
         res = []
         for tax in self.tax_line:
             if tax.tax_code_id:
-                if tax.tax_code_id.parent_id.name == 'IVA':
+                if 'IVA' in tax.tax_code_id.name:
                     continue
                 else:
                     res.append({
@@ -195,10 +195,24 @@ class invoice(models.Model):
                         'Alic': (tax.tax_amount / tax.base_amount),
                         'Importe': tax.tax_amount,
                     })
+                    # lineas agregadas por Daniel para debug
+                    print """============================GET TAXES BEGIN========================================="""
+                    print 'TAX: tax: '
+                    print str(tax.tax_code_id)
+                    print 'TAX: tax.tax_code_id.parent_afip_code: ' + str(tax.tax_code_id.parent_afip_code)
+                    print 'TAX: BaseImp: ' + str(tax.base_amount)
+                    print 'TAX: Importe: ' + str(tax.tax_amount)
+                    print """============================GET TAXES  END========================================="""
+                    # fin de lineas de debug
+
             else:
                 raise Warning(_('TAX without tax-code!\
                      Please, check if you set tax code for invoice or \
                      refund on tax %s.') % tax.name)
+        print """============================ return funcion tax ========================================="""
+	print "pasa por aca.. debug nuevo res['Id'] forzado a 5...funcion tax"
+	#res['Id'] = 5
+        print res
         return res
 
     @api.one
@@ -206,18 +220,50 @@ class invoice(models.Model):
         res = []
         for tax in self.tax_line:
             if tax.tax_code_id:
-                if tax.tax_code_id.parent_id.name != 'IVA':
+                print 'Existe un tax_code_id'
+                print tax.tax_code_id
+                print '..'
+                #if tax.tax_code_id.parent_id.name != 'IVA':
+                #if 'IVA' not in tax.tax_code_id.parent_id.name:
+                if 'IVA' not in tax.tax_code_id.name:
+                    print 'El parent id NO ES IVA'
+                    print tax.tax_code_id.name
+                    print '...'
                     continue
                 else:
+                    print 'El parent id SI ES IVA'
+                    tax_daniel_Id = tax.tax_code_id.parent_afip_code
+                    if tax.tax_code_id.parent_afip_code == 0:
+                        if round(tax.tax_amount / tax.base_amount,2) == 0.21:
+                            tax_daniel_Id = 5
+                        elif round(tax.tax_amount / tax.base_amount,3) == 0.105:
+                            tax_daniel_Id = 4
+                        else:
+                            tax_daniel_Id = 3
                     res.append({
-                        'Id': tax.tax_code_id.parent_afip_code,
+                        'Id': tax_daniel_Id,
+                        #'AlicIva': (tax.tax_amount / tax.base_amount),
                         'BaseImp': tax.base_amount,
                         'Importe': tax.tax_amount,
                     })
+                    # lineas agregadas por Daniel para debug
+                    print """=============================GET VAT BEGIN ====================================="""
+                    print 'IVA: tax: '
+                    print str(tax.tax_code_id)
+                    print 'IVA: tax.tax_code_id.parent_afip_code: ' + str(tax.tax_code_id.parent_afip_code)
+                    print 'Alicuota calculada ' + str(tax.tax_amount / tax.base_amount)
+                    print 'IVA: BaseImp: ' + str(tax.base_amount)
+                    print 'IVA: Importe: ' + str(tax.tax_amount)
+                    print """=============================GET VAT  END ======================================"""
+                    # fin de lineas de debug
             else:
                 raise Warning(_('TAX without tax-code!\
                      Please, check if you set tax code for invoice or \
                      refund on tax %s.') % tax.name)
+        print """============================ return funcion vat ========================================="""
+        print "pasa por aca.. debug nuevo res['Id'] ..funcion get_vat"
+        #res['Id'] = 5
+        print res
         return res
 
     @api.multi
@@ -263,6 +309,17 @@ class invoice(models.Model):
             # Build request dictionary
             if conn.id not in Requests:
                 Requests[conn.id] = {}
+            print """ ====================INV VAT AMOUNT===================  """
+            print inv.vat_amount
+            print """ ====================INV VAT AMOUNT===================  """
+            print """ ====================INV TAX AMOUNT===================  """
+            print inv.other_taxes_amount
+            print """ ====================INV TAX AMOUNT===================  """
+            # invierto los roles de los impuestos
+            inv.vat_amount = inv.other_taxes_amount
+            inv.other_taxes_amount = 0
+            # invierto los roles de los impuestos
+            
             Requests[conn.id][inv.id] = dict((k, v) for k, v in {
                 'CbteTipo': document_class.afip_code,
                 'PtoVta': journal.point_of_sale,
