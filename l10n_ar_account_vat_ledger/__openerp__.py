@@ -20,10 +20,10 @@
 ##############################################################################
 {
     "name": "Argentinian VAT Ledger Management",
-    'version': '8.0.1.0.1',
+    'version': '8.0.1.2.0',
     'category': 'Localization/Argentina',
     'sequence': 14,
-    'author':  'ADHOC SA',
+    'author': 'ADHOC SA',
     'website': 'www.adhoc.com.ar',
     'license': 'AGPL-3',
     'summary': '',

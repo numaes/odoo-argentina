@@ -16,8 +16,15 @@ class res_company(models.Model):
         related='partner_id.responsability_id',
         relation='afip.responsability',
         string="Responsability",)
+    gross_income_number = fields.Char(
+        related='partner_id.gross_income_number',
+        string='Gross Income')
+    # for compatibility
     iibb = fields.Char(
-        related='partner_id.iibb',
+        related='gross_income_number'
+        )
+    gross_income_type = fields.Selection(
+        related='partner_id.gross_income_type',
         string='Gross Income')
     start_date = fields.Date(
         related='partner_id.start_date',

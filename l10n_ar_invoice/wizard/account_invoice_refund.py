@@ -3,7 +3,8 @@
 # For copyright and license notices, see __openerp__.py file in module root
 # directory
 ##############################################################################
-from openerp import models, fields, api
+from openerp import models, fields, api, _
+from openerp.exceptions import Warning
 
 
 class account_invoice_refund(models.TransientModel):
@@ -35,8 +36,9 @@ class account_invoice_refund(models.TransientModel):
         # self.journal_type = journal_type
 
         point_of_sale = self.invoice_id.journal_id.point_of_sale_id
+        journal = self.env['account.journal']
         if point_of_sale:
-            journal = self.env['account.journal'].search(
+            journal = journal.search(
                 [('type', '=', journal_type),
                  ('company_id', '=', self.invoice_id.company_id.id),
                  ('point_of_sale_id', '=', point_of_sale.id),
@@ -56,37 +58,38 @@ class account_invoice_refund(models.TransientModel):
         default=_get_invoice_id,
         store=True)
 
-    def compute_refund(self, cr, uid, ids, data_refund, context=None):
-        res = super(account_invoice_refund, self).compute_refund(
-            cr, uid, ids, data_refund, context=context)
-        domain = res.get('domain', [])
-        invoice_ids = context.get('active_ids', [])
+    @api.multi
+    def compute_refund(self, data_refund):
+        invoice_ids = self._context.get('active_ids', [])
         if not invoice_ids:
-            return res
-        invoice_obj = self.pool['account.invoice']
-        refund_invoice_ids = invoice_obj.search(cr, uid, domain)
-        origin = ', '.join([x.number for x in invoice_obj.browse(
-            cr, uid, invoice_ids) if x.number])
-        # add origin date from and date to
-        # get first invoice
-        invoice = invoice_obj.browse(cr, uid, invoice_ids, context=context)[0]
-        invoice_obj.write(cr, uid, refund_invoice_ids, {
+            return super(account_invoice_refund, self).compute_refund(
+                data_refund)
+        elif len(invoice_ids) > 1:
+            raise Warning(_(
+                'Solo una factura puede ser reembolsada en cada operación'))
+        invoice = self.env['account.invoice'].browse(invoice_ids)
+        if not self.period:
+            date = self.date or invoice.date_invoice
+            period = date
+            self.env['account.period'].find()
+            period = self.env['account.period'].with_context(
+                company_id=invoice.company_id.id).find(date)[:1]
+            self.period = period.id
+        res = super(account_invoice_refund, self).compute_refund(data_refund)
+        domain = res.get('domain', [])
+        refund_invoices = invoice.search(domain)
+        origin = invoice.number
+        refund_invoices.write({
             'origin': origin,
             'afip_service_start': invoice.afip_service_start,
             'afip_service_end': invoice.afip_service_end,
         })
-        if not self.browse(cr, uid, ids, context=context)[0].period:
-            invoice_obj.write(cr, uid, refund_invoice_ids, {
-                'period_id': invoice_obj.browse(
-                    cr, uid, invoice_ids)[0].period_id.id
-            })
         if self.pool.get('sale.order'):
-            sale_order_ids = self.pool['sale.order'].search(
-                cr, uid, [('invoice_ids', 'in', invoice_ids)])
-            for invoice_id in refund_invoice_ids:
-                self.pool['sale.order'].write(
-                    cr, uid, sale_order_ids,
-                    {'invoice_ids': [(4, invoice_id)]})
+            sale_orders = self.env['sale.order'].search(
+                [('invoice_ids', 'in', invoice_ids)])
+            for refund_invoice in refund_invoices:
+                sale_orders.write(
+                    {'invoice_ids': [(4, refund_invoice.id)]})
         return res
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

@@ -64,9 +64,14 @@ class account_invoice_line_report(models.Model):
         ('in_refund', 'Supplier Refund'),
     ], 'Type', readonly=True)
     user_id = fields.Many2one('res.users', 'Salesman', readonly=True)
+    state_id = fields.Many2one('res.country.state', 'State', readonly=True)
     company_id = fields.Many2one('res.company', 'Company', readonly=True)
     product_category_id = fields.Many2one(
         'product.category', 'Category', readonly=True)
+    account_analytic_id = fields.Many2one(
+        'account.analytic.account',
+        'Analytic Account',
+        readonly=True)
 
     _order = 'id'
 
@@ -79,6 +84,7 @@ class account_invoice_line_report(models.Model):
                 "account_invoice_line"."id" AS "id",  
                 "account_invoice_line"."price_unit" AS "price_unit",
                 "account_invoice_line"."discount" AS "discount",
+                "account_invoice_line"."account_analytic_id" AS "account_analytic_id",
                 case when "account_invoice"."type" in ('in_refund','out_refund') then
                                        -("account_invoice_line"."quantity")
                                       else
@@ -111,6 +117,7 @@ class account_invoice_line_report(models.Model):
                 "account_invoice"."journal_id" AS "journal_id",--n
                 "account_invoice"."user_id" AS "user_id",--n
                 "account_invoice"."company_id" AS "company_id",--n
+                "account_invoice"."state_id" AS "state_id",--n
                 "account_invoice"."type" AS "type",
 
                 "account_invoice"."state" AS "state",
