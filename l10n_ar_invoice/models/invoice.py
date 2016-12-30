@@ -14,10 +14,12 @@ _logger = logging.getLogger(__name__)
 
 class account_invoice(models.Model):
     _inherit = "account.invoice"
+    _order = "afip_document_number desc, number desc, id desc"
 
     state_id = fields.Many2one(
         related='commercial_partner_id.state_id',
         store=True,
+        readonly=True,
     )
     currency_rate = fields.Float(
         string='Currency Rate',
@@ -175,6 +177,7 @@ class account_invoice(models.Model):
     formated_vat = fields.Char(
         string='Responsability',
         related='commercial_partner_id.formated_vat',
+        readonly=True,
     )
     document_number = fields.Char(
         compute='_get_document_number',
@@ -227,6 +230,10 @@ class account_invoice(models.Model):
         string='Service End Date',
         readonly=True,
         states={'draft': [('readonly', False)]},
+    )
+    document_type = fields.Selection(
+        related='afip_document_class_id.document_type',
+        readonly=True,
     )
 
     @api.one
@@ -318,10 +325,13 @@ class account_invoice(models.Model):
     def _get_taxes_and_prices(self):
         """
         """
-
+        # we add and r.base because if not base amount no tax, this is used
+        # for eg, in invoice validation againsta afip, if invoice amount is
+        # cero, we should report any tax
         vat_taxes = self.tax_line.filtered(
             lambda r: (
-                r.tax_code_id.type == 'tax' and r.tax_code_id.tax == 'vat'))
+                r.tax_code_id.type == 'tax' and r.tax_code_id.tax == 'vat' and
+                r.base))
         vat_amount = sum(
             vat_taxes.mapped('amount'))
         vat_base_amount = sum(
@@ -379,7 +389,7 @@ class account_invoice(models.Model):
         recs = self.browse()
         if name:
             recs = self.search(
-                [('document_number', '=', name)] + args, limit=limit)
+                [('afip_document_number', operator, name)] + args, limit=limit)
         if not recs:
             recs = self.search([('name', operator, name)] + args, limit=limit)
         return recs.name_get()
@@ -396,7 +406,7 @@ class account_invoice(models.Model):
         self.vat_discriminated = vat_discriminated
 
     @api.one
-    @api.depends('afip_document_number', 'number')
+    # @api.depends('afip_document_number', 'number')
     def _get_invoice_number(self):
         """ Funcion que calcula numero de punto de venta y numero de factura
         a partir del document number. Es utilizado principalmente por el modulo
@@ -405,9 +415,20 @@ class account_invoice(models.Model):
         # TODO mejorar estp y almacenar punto de venta y numero de factura por separado
         # de hecho con esto hacer mas facil la carga de los comprobantes de
         # compra
-        str_number = self.afip_document_number or self.number or False
-        if str_number and self.state not in ['draft', 'proforma', 'proforma2', 'cancel']:
-            if self.afip_document_class_id.afip_code in [33, 99, 331, 332]:
+
+        # modificamos para que sea compatible con obetener numero y punto
+        # de venta para facturas de proveedor en borrador
+        str_number = self.afip_document_number or False
+        # self.number es el numero nativo de odoo y nos puede dar error
+        # no deberia ser necesario
+        # str_number = self.afip_document_number or self.number or False
+        if not str_number and self.supplier_invoice_number:
+            str_number = self.supplier_invoice_number
+        # if str_number and self.state not in ['draft', 'proforma', 'proforma2', 'cancel']:
+
+        afip_code = self.afip_document_class_id.afip_code
+        if str_number:
+            if not afip_code or afip_code in [33, 99, 331, 332]:
                 point_of_sale = '0'
                 # leave only numbers and convert to integer
                 invoice_number = str_number
@@ -610,6 +631,15 @@ class account_invoice(models.Model):
         if not argentinian_invoices:
             return True
 
+        # check partner has responsability so it will be assigned on invoice
+        # validate
+        without_responsability = argentinian_invoices.filtered(
+            lambda x: not x.commercial_partner_id.responsability_id)
+        if without_responsability:
+            raise Warning(_(
+                'The following invoices has a partner without AFIP '
+                'responsability: %s' % without_responsability.ids))
+
         # check invoice tax has code
         without_tax_code = self.env['account.invoice.tax'].search([
             ('invoice_id', 'in', argentinian_invoices.ids),
@@ -633,12 +663,13 @@ class account_invoice(models.Model):
                     unconfigured_tax_codes.ids)))
 
         # Check invoice with amount
-        invoices_without_amount = self.search([
-            ('id', 'in', argentinian_invoices.ids),
-            ('amount_total', '=', 0.0)])
-        if invoices_without_amount:
-            raise Warning(_('Invoices ids %s amount is cero!') % (
-                invoices_without_amount.ids))
+        # this is not a required constraint
+        # invoices_without_amount = self.search([
+        #     ('id', 'in', argentinian_invoices.ids),
+        #     ('amount_total', '=', 0.0)])
+        # if invoices_without_amount:
+        #     raise Warning(_('Invoices ids %s amount is cero!') % (
+        #         invoices_without_amount.ids))
 
         # Check invoice requiring vat
 
@@ -858,3 +889,23 @@ class account_invoice(models.Model):
             if not self.afip_service_end:
                 self.afip_service_end = date_invoice + \
                     relativedelta(day=1, days=-1, months=+1)
+
+    @api.multi
+    @api.constrains('type', 'afip_document_class_id')
+    def check_invoice_type_document_type(self):
+        for rec in self:
+            document_type = rec.document_type
+            invoice_type = rec.type
+            if not document_type:
+                continue
+            elif document_type in [
+                    'debit_note', 'invoice'] and invoice_type in [
+                    'out_refund', 'in_refund']:
+                raise Warning(_(
+                    'You can not use a document class of type %s with a '
+                    'refund invoice') % document_type)
+            elif document_type == 'credit_note' and invoice_type in [
+                    'out_invoice', 'in_invoice']:
+                raise Warning(_(
+                    'You can not use a document class of type %s with a '
+                    'invoice') % document_type)

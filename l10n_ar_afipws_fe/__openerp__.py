@@ -20,7 +20,7 @@
 ##############################################################################
 {
     "name": "Argentina - Web Services de Factura Electrónica del AFIP",
-    'version': '8.0.1.3.1',
+    'version': '8.0.1.6.0',
     'category': 'Localization/Argentina',
     'sequence': 14,
     'author': 'ADHOC SA',
@@ -47,6 +47,7 @@ algun lugar
         'views/afip_point_of_sale_view.xml',
         'views/product_uom_view.xml',
         'views/res_currency_view.xml',
+        'views/res_company_view.xml',
         'data/afip.wsfe_error.csv',
         'security/ir.model.access.csv',
     ],
@@ -57,7 +58,7 @@ algun lugar
     'test': [
     ],
     'installable': True,
-    'auto_install': True,
+    'auto_install': False,
     'application': False,
 }
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

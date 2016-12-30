@@ -16,16 +16,21 @@ class account_invoice_refund(models.TransientModel):
 
     @api.model
     def _get_invoice_id(self):
-        return self._context.get('active_id', False)
+        return self.env['account.invoice'].browse(
+            self._context.get('active_id', False))
 
     # @api.one
     @api.multi
     @api.onchange('invoice_id')
     def _onchange_invoice(self):
         journal_type = False
-        if self.invoice_id.type == 'out_refund' or 'out_invoice':
+        if self.invoice_id.type == 'out_refund':
+            journal_type = 'sale'
+        elif self.invoice_id.type == 'out_invoice':
             journal_type = 'sale_refund'
-        elif self.invoice_id.type == 'in_refund' or 'in_invoice':
+        elif self.invoice_id.type == 'in_refund':
+            journal_type = 'purchase'
+        elif self.invoice_id.type == 'in_invoice':
             journal_type = 'purchase_refund'
         # return {'domain': {'journal_id': price}}
         journals = self.env['account.journal'].search(
@@ -43,8 +48,8 @@ class account_invoice_refund(models.TransientModel):
                  ('company_id', '=', self.invoice_id.company_id.id),
                  ('point_of_sale_id', '=', point_of_sale.id),
                  ], limit=1)
-            if not journal and journals:
-                journal = journals[0]
+        if not journal and journals:
+            journal = journals[0]
         if journal:
             self.journal_id = journal.id
         return {'domain': {
@@ -56,7 +61,7 @@ class account_invoice_refund(models.TransientModel):
         'account.invoice',
         'Invoice',
         default=_get_invoice_id,
-        store=True)
+    )
 
     @api.multi
     def compute_refund(self, data_refund):
@@ -75,7 +80,10 @@ class account_invoice_refund(models.TransientModel):
             period = self.env['account.period'].with_context(
                 company_id=invoice.company_id.id).find(date)[:1]
             self.period = period.id
-        res = super(account_invoice_refund, self).compute_refund(data_refund)
+        # we send debit note so that if we create a refund from a refund
+        # it try to choose a debit note document class
+        res = super(account_invoice_refund, self.with_context(
+            document_type='debit_note')).compute_refund(data_refund)
         domain = res.get('domain', [])
         refund_invoices = invoice.search(domain)
         origin = invoice.number

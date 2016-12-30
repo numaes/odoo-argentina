@@ -4,7 +4,11 @@
 # directory
 ##############################################################################
 import conversor
+import datetime
 from openerp.report.report_sxw import rml_parse
+import sys
+reload(sys)
+sys.setdefaultencoding('utf8')
 
 
 class Parser(rml_parse):
@@ -77,11 +81,12 @@ class Parser(rml_parse):
             'number_to_string': self.number_to_string,
             'partner_address': self.partner_address,
             'net_price': self.net_price,
+            'datetime': datetime,
             'context': context,
         })
 
     def net_price(self, gross_price, discount):
-        return gross_price * (1-(discount / 100))
+        return gross_price * (1 - (discount / 100))
 
     def number_to_string(self, val):
         return conversor.to_word(val)
