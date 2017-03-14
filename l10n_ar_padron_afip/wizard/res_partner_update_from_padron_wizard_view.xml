@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<openerp>
+<odoo>
     <data>
         <!-- the sequence of the configuration sub menu is 30 -->
         <!-- <menuitem id='root_menu' name='Tools' parent='base.menu_base_partner' sequence="25"/> -->
@@ -16,7 +16,7 @@
         <menuitem id='menu_base_partner_update_from_padron'
             action='action_base_partner_update_from_padron'
             groups='base.group_system'
-            parent='base.menu_config_address_book'/>
+            parent='sales_team.menu_config_address_book'/>
 
         <record model='ir.ui.view' id='view_base_partner_update_from_padron_form'>
             <field name='name'>res.partner.update.from.padron.wizard.form</field>
@@ -84,4 +84,4 @@
 
     </data>
 
-</openerp>
+</odoo>

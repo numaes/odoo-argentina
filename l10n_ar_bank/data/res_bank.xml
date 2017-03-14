@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<openerp>
+<odoo>
     <data>
         <record model='res.bank' id='00005'>
             <field name='name'>Abn  Amro Bank N. V.</field>
@@ -78,7 +78,7 @@
             <field name='street2'>piso 1</field>
             <field name='zip'>1638</field>
             <field name='city'>Vicente López</field>
-            <field name='state' ref='l10n_ar_states.B'/>
+            <field name='state' ref='base.state_ar_b'/>
             <field name='country' ref='base.ar'/>
             <field name='phone'>011-4796-8600</field>
             <field name='fax'>011-4796-8641</field>
@@ -147,7 +147,7 @@
             <field name='street2'></field>
             <field name='zip'></field>
             <field name='city'>Corrientes</field>
-            <field name='state' ref='l10n_ar_states.W'/>
+            <field name='state' ref='base.state_ar_w'/>
             <field name='country' ref='base.ar'/>
             <field name='phone'>03783-479300</field>
             <field name='fax'>03783-479300</field>
@@ -161,7 +161,7 @@
             <field name='street2'></field>
             <field name='zip'></field>
             <field name='city'>Formosa</field>
-            <field name='state' ref='l10n_ar_states.P'/>
+            <field name='state' ref='base.state_ar_p'/>
             <field name='country' ref='base.ar'/>
             <field name='phone'>03717-429200</field>
             <field name='fax'>03717-429844</field>
@@ -230,7 +230,7 @@
             <field name='street2'></field>
             <field name='zip'>L6300DRE</field>
             <field name='city'>Santa Rosa</field>
-            <field name='state' ref='l10n_ar_states.L'/>
+            <field name='state' ref='base.state_ar_l'/>
             <field name='country' ref='base.ar'/>
             <field name='phone'>02954-451000</field>
             <field name='email'>infoweb@blp.com.ar</field>
@@ -243,7 +243,7 @@
             <field name='street2'></field>
             <field name='zip'></field>
             <field name='city'>La Plata</field>
-            <field name='state' ref='l10n_ar_states.B'/>
+            <field name='state' ref='base.state_ar_b'/>
             <field name='country' ref='base.ar'/>
             <field name='phone'>011-4347-0000</field>
             <field name='email'>atencionalclienteBPBA@bapropagos.com.ar</field>
@@ -256,7 +256,7 @@
             <field name='street2'></field>
             <field name='zip'>X5000AGD</field>
             <field name='city'>Córdoba</field>
-            <field name='state' ref='l10n_ar_states.X'/>
+            <field name='state' ref='base.state_ar_x'/>
             <field name='country' ref='base.ar'/>
             <field name='phone'>0351-4207200</field>
             <field name='fax'>0351-4207407</field>
@@ -284,7 +284,7 @@
             <field name='street2'></field>
             <field name='zip'></field>
             <field name='city'>San Juan</field>
-            <field name='state' ref='l10n_ar_states.J'/>
+            <field name='state' ref='base.state_ar_j'/>
             <field name='country' ref='base.ar'/>
             <field name='phone'>0264-4291000</field>
             <field name='fax'>0264-4214126</field>
@@ -298,7 +298,7 @@
             <field name='street2'></field>
             <field name='zip'></field>
             <field name='city'>Río Gallegos</field>
-            <field name='state' ref='l10n_ar_states.Z'/>
+            <field name='state' ref='base.state_ar_z'/>
             <field name='country' ref='base.ar'/>
             <field name='phone'>02966-441200</field>
             <field name='fax'>02966-422395</field>
@@ -312,7 +312,7 @@
             <field name='street2'></field>
             <field name='zip'></field>
             <field name='city'>Santiago del Estero</field>
-            <field name='state' ref='l10n_ar_states.G'/>
+            <field name='state' ref='base.state_ar_g'/>
             <field name='country' ref='base.ar'/>
             <field name='phone'>0385-450-2300</field>
             <field name='fax'>0385-450-2319</field>
@@ -326,7 +326,7 @@
             <field name='street2'></field>
             <field name='zip'>B1640GJA</field>
             <field name='city'>Martínez</field>
-            <field name='state' ref='l10n_ar_states.B'/>
+            <field name='state' ref='base.state_ar_b'/>
             <field name='country' ref='base.ar'/>
             <field name='phone'>-4003-7275</field>
             <field name='fax'>-4003-6923</field>
@@ -368,7 +368,7 @@
             <field name='street2'></field>
             <field name='zip'>U9103ANG</field>
             <field name='city'>Rawson</field>
-            <field name='state' ref='l10n_ar_states.U'/>
+            <field name='state' ref='base.state_ar_u'/>
             <field name='country' ref='base.ar'/>
             <field name='phone'>02965-482505</field>
             <field name='fax'>02965-482513</field>
@@ -382,7 +382,7 @@
             <field name='street2'></field>
             <field name='zip'>B1900AVM</field>
             <field name='city'>La Plata</field>
-            <field name='state' ref='l10n_ar_states.B'/>
+            <field name='state' ref='base.state_ar_b'/>
             <field name='country' ref='base.ar'/>
             <field name='phone'>0221-4232403</field>
             <field name='fax'>0221-422-9111</field>
@@ -396,7 +396,7 @@
             <field name='street2'></field>
             <field name='zip'></field>
             <field name='city'>San Miguel de Tucumán</field>
-            <field name='state' ref='l10n_ar_states.T'/>
+            <field name='state' ref='base.state_ar_t'/>
             <field name='country' ref='base.ar'/>
             <field name='phone'>0381-4503300</field>
             <field name='fax'>0381-4311957</field>
@@ -476,7 +476,7 @@
             <field name='street2'>piso pb</field>
             <field name='zip'>X5000IJC</field>
             <field name='city'>Córdoba</field>
-            <field name='state' ref='l10n_ar_states.X'/>
+            <field name='state' ref='base.state_ar_x'/>
             <field name='country' ref='base.ar'/>
             <field name='phone'>0351-4213007</field>
             <field name='fax'>0351-4213007</field>
@@ -517,7 +517,7 @@
             <field name='street2'></field>
             <field name='zip'></field>
             <field name='city'>Salta</field>
-            <field name='state' ref='l10n_ar_states.A'/>
+            <field name='state' ref='base.state_ar_a'/>
             <field name='country' ref='base.ar'/>
             <field name='phone'>0387-4310298</field>
             <field name='fax'>0387-4310914</field>
@@ -544,7 +544,7 @@
             <field name='street2'></field>
             <field name='zip'>S2000CJJ</field>
             <field name='city'>Rosario</field>
-            <field name='state' ref='l10n_ar_states.S'/>
+            <field name='state' ref='base.state_ar_s'/>
             <field name='country' ref='base.ar'/>
             <field name='phone'>0341-4256162</field>
             <field name='fax'>0341-4256182</field>
@@ -600,7 +600,7 @@
             <field name='street2'></field>
             <field name='zip'></field>
             <field name='city'>Ushuaia</field>
-            <field name='state' ref='l10n_ar_states.V'/>
+            <field name='state' ref='base.state_ar_v'/>
             <field name='country' ref='base.ar'/>
             <field name='phone'>02901-441600</field>
             <field name='fax'>02901-441671</field>
@@ -614,7 +614,7 @@
             <field name='street2'></field>
             <field name='zip'></field>
             <field name='city'>Neuquén</field>
-            <field name='state' ref='l10n_ar_states.Q'/>
+            <field name='state' ref='base.state_ar_q'/>
             <field name='country' ref='base.ar'/>
             <field name='phone'>0299-4496600</field>
             <field name='fax'>0299-4480439</field>
@@ -628,7 +628,7 @@
             <field name='street2'></field>
             <field name='zip'></field>
             <field name='city'>Mendoza</field>
-            <field name='state' ref='l10n_ar_states.M'/>
+            <field name='state' ref='base.state_ar_m'/>
             <field name='country' ref='base.ar'/>
             <field name='phone'>0261-4498800</field>
             <field name='fax'>0261-4235999</field>
@@ -642,7 +642,7 @@
             <field name='street2'></field>
             <field name='zip'>X5000ACE</field>
             <field name='city'>Córdoba</field>
-            <field name='state' ref='l10n_ar_states.X'/>
+            <field name='state' ref='base.state_ar_x'/>
             <field name='country' ref='base.ar'/>
             <field name='phone'>0351-4241777</field>
             <field name='fax'>0351-4230824</field>
@@ -670,7 +670,7 @@
             <field name='street2'></field>
             <field name='zip'></field>
             <field name='city'>La Plata</field>
-            <field name='state' ref='l10n_ar_states.B'/>
+            <field name='state' ref='base.state_ar_b'/>
             <field name='country' ref='base.ar'/>
             <field name='phone'>011-4341-1000</field>
             <field name='fax'>011-4342-8962</field>
@@ -737,7 +737,7 @@
             <field name='street2'></field>
             <field name='zip'>1672</field>
             <field name='city'>Villa Lynch</field>
-            <field name='state' ref='l10n_ar_states.B'/>
+            <field name='state' ref='base.state_ar_b'/>
             <field name='country' ref='base.ar'/>
             <field name='phone'>011-4512-6000</field>
             <field name='fax'>011-4754-9399</field>
@@ -817,7 +817,7 @@
             <field name='street2'></field>
             <field name='zip'>B1610BKK</field>
             <field name='city'>Ricardo Rojas</field>
-            <field name='state' ref='l10n_ar_states.B'/>
+            <field name='state' ref='base.state_ar_b'/>
             <field name='country' ref='base.ar'/>
             <field name='phone'>-4510-8325</field>
             <field name='fax'>-4510-8004</field>
@@ -872,7 +872,7 @@
             <field name='street2'></field>
             <field name='zip'></field>
             <field name='city'>Granadero Baigorria</field>
-            <field name='state' ref='l10n_ar_states.S'/>
+            <field name='state' ref='base.state_ar_s'/>
             <field name='country' ref='base.ar'/>
             <field name='phone'>0341-410-5331</field>
             <field name='fax'>0341-410-5310</field>
@@ -942,7 +942,7 @@
             <field name='street2'></field>
             <field name='zip'></field>
             <field name='city'>Mendoza</field>
-            <field name='state' ref='l10n_ar_states.M'/>
+            <field name='state' ref='base.state_ar_m'/>
             <field name='country' ref='base.ar'/>
             <field name='phone'>0261-4494500</field>
             <field name='fax'>0261-4494540</field>
@@ -970,7 +970,7 @@
             <field name='street2'></field>
             <field name='zip'>E3100ACD</field>
             <field name='city'>Paraná</field>
-            <field name='state' ref='l10n_ar_states.E'/>
+            <field name='state' ref='base.state_ar_e'/>
             <field name='country' ref='base.ar'/>
             <field name='phone'>0343-4201200</field>
             <field name='fax'>0343-4313869</field>
@@ -984,7 +984,7 @@
             <field name='street2'></field>
             <field name='zip'></field>
             <field name='city'>La Rioja</field>
-            <field name='state' ref='l10n_ar_states.F'/>
+            <field name='state' ref='base.state_ar_f'/>
             <field name='country' ref='base.ar'/>
             <field name='phone'>03822-430575</field>
             <field name='fax'>03822-430618</field>
@@ -998,7 +998,7 @@
             <field name='street2'></field>
             <field name='zip'></field>
             <field name='city'>Santa Fe</field>
-            <field name='state' ref='l10n_ar_states.S'/>
+            <field name='state' ref='base.state_ar_s'/>
             <field name='country' ref='base.ar'/>
             <field name='phone'>0341-4294200</field>
             <field name='fax'>0341-440150</field>
@@ -1012,7 +1012,7 @@
             <field name='street2'></field>
             <field name='zip'>H3500CBD</field>
             <field name='city'>Resistencia</field>
-            <field name='state' ref='l10n_ar_states.H'/>
+            <field name='state' ref='base.state_ar_h'/>
             <field name='country' ref='base.ar'/>
             <field name='phone'>03722-447400</field>
             <field name='fax'>03722-447401</field>
@@ -1106,11 +1106,11 @@
             <field name='street2'></field>
             <field name='zip'></field>
             <field name='city'>General Pacheco</field>
-            <field name='state' ref='l10n_ar_states.B'/>
+            <field name='state' ref='base.state_ar_b'/>
             <field name='country' ref='base.ar'/>
             <field name='phone'>011-4317-9000</field>
             <field name='fax'>011-4317-9001</field>
             <field name='email'>mariana.rodriguez@vwfs.com</field>
         </record>
     </data>
-</openerp>
+</odoo>

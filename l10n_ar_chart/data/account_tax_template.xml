@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<openerp>
+<odoo>
   <data noupdate="0">
         <!-- account.tax.template -->
         <record id="ri_tax_vat_no_corresponde_ventas" model="account.tax.template">
@@ -276,4 +276,4 @@
         </record>
 
   </data>
-</openerp>
+</odoo>

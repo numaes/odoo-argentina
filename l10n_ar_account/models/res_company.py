@@ -6,9 +6,9 @@
 from openerp import fields, models
 from openerp.addons.account_document.models.res_company import ResCompany
 
-localizations = ResCompany._localization_selection
-new_selection = localizations.append(('argentina', 'Argentina'))
-ResCompany._localization_selection = new_selection
+# localizations = ResCompany._localization_selection
+# new_selection = localizations.append(('argentina', 'Argentina'))
+# ResCompany._localization_selection = new_selection
 
 
 class ResCompany(models.Model):

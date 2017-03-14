@@ -3,7 +3,7 @@
 # For copyright and license notices, see __openerp__.py file in module root
 # directory
 ##############################################################################
-from openerp import fields, models
+from openerp import fields, models, api
 from openerp import tools
 
 
@@ -77,10 +77,11 @@ class AccountInvoiceLineReport(models.Model):
 
     _order = 'id'
 
-    def init(self, cr):
-
-        tools.drop_view_if_exists(cr, 'account_invoice_line_report')
-        cr.execute("""
+    @api.model_cr
+    def init(self):
+      
+        tools.drop_view_if_exists(self._cr, 'account_invoice_line_report')
+        self._cr.execute("""
         CREATE OR REPLACE VIEW account_invoice_line_report AS (
         SELECT
         "account_invoice_line"."id" AS "id",
@@ -129,7 +130,7 @@ class AccountInvoiceLineReport(models.Model):
 
         "account_invoice"."amount_total" AS "amount_total",
         "product_product"."barcode" AS "barcode",
-        "product_product"."name_template" AS "name_template",
+       
 
 
         "product_template"."categ_id" as "product_category_id", --n

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<openerp>
+<odoo>
     <data noupdate="True">
 
         <record model='res.partner' id='par_cfa'>
@@ -19,9 +19,9 @@
             <field name='main_id_number'>33693450239</field>
             <field name='afip_responsability_type_id' ref='res_IVANR'/>
             <!-- add doc despacho y despacho imp serv -->
-            <field name='other_document_type_ids' eval='[(4, ref("dc_desp_imp"), False), (4, ref("dc_imp_serv"), False)]'/>
+<!--             <field name='other_document_type_ids' eval='[(4, ref("dc_desp_imp"), False), (4, ref("dc_imp_serv"), False)]'/> -->
         </record>
 
     </data>
-</openerp>
+</odoo>
  

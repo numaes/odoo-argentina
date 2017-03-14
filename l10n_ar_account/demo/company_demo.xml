@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<openerp>
+<odoo>
     <data>
     <!-- Companies -->
         <record id="base.main_company" model="res.company">
@@ -47,4 +47,4 @@
             <!-- <field name="groups_id" eval="[(4, ref('base.group_multi_company'))]"/> -->
         </record>
     </data>
-</openerp>
+</odoo>

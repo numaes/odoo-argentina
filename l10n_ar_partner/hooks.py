@@ -19,7 +19,7 @@ column_renames = {
 
 def pre_init_hook(cr):
     if (
-            openupgrade.column_exists(
+            openupgrade and openupgrade.column_exists(
                 cr, 'res_partner', 'document_type_id') and
             not openupgrade.column_exists(
                 cr, 'res_partner', 'main_id_category_id')):
@@ -51,7 +51,8 @@ def update_data_module_name(cr, models, old_name, new_name):
     for model in models:
         query = ("UPDATE ir_model_data SET module = %s "
                  "WHERE module = %s and model = %s")
-        openupgrade.logged_query(cr, query, (new_name, old_name, model))
+        if openupgrade:
+            openupgrade.logged_query(cr, query, (new_name, old_name, model))
 
 
 def post_init_hook(cr, registry):
@@ -64,10 +65,10 @@ def post_init_hook(cr, registry):
     """
     # we don not force dependency on openupgradelib, only if available we try
     # o un de hook
-    if not openupgrade.column_exists:
+    if openupgrade and not openupgrade.column_exists:
         return False
     # write en vez de sql para que genere los campos por defecto necesarios
-    if openupgrade.column_exists(cr, 'res_partner', 'document_number'):
+    if openupgrade and openupgrade.column_exists(cr, 'res_partner', 'document_number'):
         # we make this so it ise much faster
         openupgrade.logged_query(cr, """
             INSERT into res_partner_id_number
