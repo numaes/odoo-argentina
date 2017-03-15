@@ -2,7 +2,7 @@
 
 [report]
 include =
-    */ingadhoc/odoo-argentina/*
+    */bmya/odoo-argentina/*
 
 omit =
     */scenario/*
