@@ -15,6 +15,6 @@
 # sale-workflow https://github.com/OCA/sale-workflow branchname
 partner-contact
 account-financial-tools
-bmya-account-financial-tools https://github.com/bmya/account-financial-tools
-bmya-account-payment https://github.com/bmya/account-payment
-bmya-aeroo_reports https://github.com/bmya/aeroo_reports
+bmya-account-financial-tools https://github.com/bmya/account-financial-tools 10.0_dev
+bmya-account-payment https://github.com/bmya/account-payment 10.0_dev
+bmya-aeroo_reports https://github.com/bmya/aeroo_reports 10.0_dev
