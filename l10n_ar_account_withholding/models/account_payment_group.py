@@ -3,7 +3,7 @@
 # For copyright and license notices, see __openerp__.py file in module root
 # directory
 ##############################################################################
-from openerp import models, api, fields
+from odoo import models, api, fields
 
 
 class AccountPaymentGroup(models.Model):

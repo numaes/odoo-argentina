@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
-from openerp import models, fields, api
-# from openerp.exceptions import UserError
-from openerp.addons.l10n_ar_account.models import account_journal
+from odoo import models, fields, api
+# from odoo.exceptions import UserError
+from odoo.addons.l10n_ar_account.models import account_journal
 
 
 class AccountConfigSettings(models.TransientModel):

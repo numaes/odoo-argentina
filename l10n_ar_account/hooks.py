@@ -11,9 +11,9 @@ except ImportError:
 def post_init_hook(cr, registry):
     """Loaded after installing the module.
     This module's DB modifications will be available.
-    :param openerp.sql_db.Cursor cr:
+    :param odoo.sql_db.Cursor cr:
         Database cursor.
-    :param openerp.modules.registry.RegistryManager registry:
+    :param odoo.modules.registry.RegistryManager registry:
         Database registry, using v7 api.
     """
     ar_invoice_ids = registry['account.invoice'].search(

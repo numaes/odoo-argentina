@@ -1,18 +1,18 @@
 # -*- coding: utf-8 -*-
-from openerp import models, fields, api
-from openerp.exceptions import UserError
+from odoo import models, fields, api
+from odoo.exceptions import UserError
 import datetime
 
 
 class AccountTax(models.Model):
     _inherit = "account.tax"
 
-    withholding_type = fields.Selection(
-        selection_add=([
+    withholding_type = fields.Selection([
+        
             ('arba_ws', 'WS Arba'),
-            ('tabla_ganancias', 'Tabla Ganancias'),
-        ])
-    )
+            ('tabla_ganancias', 'Tabla Ganancias')
+        
+    ])
 
     @api.multi
     def get_withholding_vals(self, payment_group):

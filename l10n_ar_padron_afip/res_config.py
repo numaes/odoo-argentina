@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
-from openerp import models, api, _
+from odoo import models, api, _
 try:
     from pyafipws.padron import PadronAFIP
 except ImportError:
     PadronAFIP = None
-from openerp.exceptions import UserError
+from odoo.exceptions import UserError
 import logging
 _logger = logging.getLogger(__name__)
 
