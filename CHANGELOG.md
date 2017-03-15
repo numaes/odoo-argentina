@@ -14,6 +14,19 @@
 |currency_rate_update   |OCA/account-financial-tools |dependency      |
 |partner_identification |OCA/partner-contact         |dependency      |
 
+######
+odoo-10.0/addons/account ~/build/bmya/odoo-argentina
+odoo-10.0/addons/account_cancel ~/build/bmya/odoo-argentina
+odoo-10.0/addons/account_full_reconcile ~/build/bmya/odoo-argentina
+dependencies/bmya-account-financial-tools/account_document ~/build/bmya/odoo-argentina
+dependencies/bmya-account-financial-tools/account_debt_management ~/build/bmya/odoo-argentina
+dependencies/bmya-account-payment/account_check ~/build/bmya/odoo-argentina
+dependencies/bmya-account-payment/account_withholding ~/build/bmya/odoo-argentina
+dependencies/bmya-account-payment/account_withholding_automatic ~/build/bmya/odoo-argentina
+dependencies/bmya-account-payment/account_payment_group ~/build/bmya/odoo-argentina
+dependencies/bmya-account-payment/account_payment_fix ~/build/bmya/odoo-argentina
+dependencies/account-financial-tools/currency_rate_update ~/build/bmya/odoo-argentina
+
 
 ###### Changes made on repository modules for 10.0_dev
 
