@@ -3,8 +3,7 @@
 # For copyright and license notices, see __odoo__.py file in module root
 # directory
 ##############################################################################
-from odoo import fields, models
-from odoo.addons.account_document.models.res_company import ResCompany
+from odoo import fields, models, api
 
 # localizations = ResCompany._localization_selection
 # new_selection = localizations.append(('argentina', 'Argentina'))
@@ -34,3 +33,10 @@ class ResCompany(models.Model):
     #     'company_id',
     #     'Journals'
     #     )
+
+    @api.model
+    def _get_localizations(self):
+        ret = super(ResCompany, self)._get_localizations()
+        ret.append(('argentina', 'Argentina'))
+        return ret
+

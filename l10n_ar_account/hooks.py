@@ -16,8 +16,12 @@ def post_init_hook(cr, registry):
     :param odoo.modules.registry.RegistryManager registry:
         Database registry, using v7 api.
     """
-    ar_invoice_ids = registry['account.invoice'].search(
-        cr, 1, [('localization', '=', 'argentina')])
+    ############################################
+    ## NO POST INIT NOW
+    ############################################
+    return
+
+    ar_invoice_ids = registry['account.invoice'].search([('localization', '=', 'argentina')])
     for invoice_id in ar_invoice_ids:
         vals = registry['account.invoice'].get_localization_invoice_vals(
             cr, 1, invoice_id)
